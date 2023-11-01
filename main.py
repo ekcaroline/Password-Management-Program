@@ -146,7 +146,6 @@ def main():
       print("1. Register")
       print("2. Login")
       print("3. Exit")
-      print("4. secret hehehe")
 
       userChoice0 = int(input("\nEnter your choice: "))
 
@@ -171,10 +170,6 @@ def main():
                   break
 
       elif userChoice0 == 3:
-          break
-
-      elif userChoice0 == 4:
-          print("ek is gay, hehehehehehe")
           break
 
   #close the connection
