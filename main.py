@@ -151,6 +151,10 @@ def main():
 
       elif userChoice0 == 3:
           break
+      
+      elif userChoice0 == 4:
+          print("test")
+          break
         
   #close the connection
   cursor.close()
