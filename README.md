@@ -15,7 +15,7 @@ Password Retrieval: Users can retrieve stored passwords by providing the website
 Clone or download the repository to your local machine.
 Make sure you have Python installed (the code is compatible with Python 3).
 Install the required packages using pip install pycryptodome and pip install bcrypt.
-Run the program by executing the password_manager.py file in your terminal or IDE.
+Run the program by executing the main.py file in your terminal or IDE.
 
 ## Usage
 Choose an option from the main menu:
