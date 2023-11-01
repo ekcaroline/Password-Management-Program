@@ -30,18 +30,18 @@ If you choose to log in, enter your username and password. After successful logi
 Store password (1): Store a new password for a website.
 Retrieve password (2): Retrieve a stored password for a website.
 Back to main menu (3): Go back to the main menu.
-Database
+
+## Database
 The program uses an SQLite database to store user information and passwords. The database schema includes two tables:
 
 users: Stores user information (id, username, password, salt).
 passwords: Stores stored passwords (id, user_id, website, password).
-Important Notes
+
+## Important Notes
 The program employs bcrypt for secure password hashing.
 The AES encryption and decryption code is provided but commented out. You can uncomment it and use it to encrypt and decrypt passwords.
-Author
-This program is created by [Your Name]. Feel free to contact me at [Your Email] if you have any questions or suggestions.
+## Author
 
-License
-This project is licensed under the [License Name] - see the LICENSE file for details.
+This program is created by Caroline Ek and Alexander Au. Feel free to contact me if you have any questions or suggestions.
 
 Enjoy using the Password Manager!
