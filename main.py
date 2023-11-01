@@ -6,7 +6,7 @@ import sqlite3
 import bcrypt
 import time
 
-#register user
+# Register a user
 def user_register():
   print("\n ---------- User Registration ----------")
   
@@ -32,7 +32,7 @@ def user_register():
         print("Registration successful!")
         break
 
-#login a user
+# User login
 def login_user():
   max_attempts = 3
   attempts = 0
@@ -73,7 +73,7 @@ def login_user():
       time.sleep(300)
   return username
 
-#salt the password in the password storage and encrypt it onto the database
+# Enter and store password onto database
 def store_password(username):
   website = input("Enter the website: ")
   password = input("Enter your password: ")
@@ -98,7 +98,7 @@ def store_password(username):
         retrieve_password()
         break
     
-#retrieve password function
+# Retrieve the password from database using username, website
 def retrieve_password(username):
   website = input("Enter the website name: ")
 
@@ -123,6 +123,7 @@ def main():
       print("1. Register")
       print("2. Login")
       print("3. Exit")
+      print("4. secret hehehe")
 
       userChoice0 = int(input("\nEnter your choice: "))
 
@@ -147,6 +148,10 @@ def main():
                   break
 
       elif userChoice0 == 3:
+          break
+
+      elif userChoice0 == 4:
+          print("ek is gay, hehehehehehe")
           break
 
   #close the connection
