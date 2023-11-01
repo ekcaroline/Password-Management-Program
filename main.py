@@ -118,27 +118,6 @@ def retrieve_password(username):
   if not passwordFound:
       print("Password not found for the website.")
 
-"""
-#program will generate key
-def generate_key():
-  key = 'awesome_key'
-  return hashlib.md5(key.encode('utf8')).digest()
-
-#program will encrypt password using the generated key
-def encrypt_password(key, password):
-  iv = get_random_bytes(AES.block_size)
-  encCipher = AES.new(key, AES.MODE_CBC, iv)
-  cipherPassword = b64encode(iv + encCipher.encrypt(pad(password, AES.block_size)))
-  return cipherPassword
-
-#program will decrypt password using the generated key
-def decrypt_password(key, cipherPassword):
-  raw = b64decode(cipherPassword)
-  decCipher = AES.new(key, AES.MODE_CBC, raw[:AES.block_size])
-  plainPassword = unpad(decCipher.decrypt(raw[AES.block_size:]), AES.block_size)
-  return plainPassword
-  """
-
 def main():
   print("Welcome To Password Manager")
 
