@@ -1,9 +1,7 @@
 from Crypto.Cipher import AES
-import hashlib
-from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
-from base64 import b64decode
-from base64 import b64encode
+
+import hashlib
 import sqlite3
 import bcrypt
 import time
