@@ -6,6 +6,8 @@ import sqlite3
 import bcrypt
 import time
 
+#test
+
 # Register a user
 def user_register():
   print("\n ---------- User Registration ----------")
