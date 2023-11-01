@@ -39,7 +39,7 @@ passwords: Stores stored passwords (id, user_id, website, password).
 
 ## Important Notes
 The program employs bcrypt for secure password hashing.
-The AES encryption and decryption code is provided but commented out. You can uncomment it and use it to encrypt and decrypt passwords.
+
 ## Author
 
 This program is created by Caroline Ek and Alexander Au. Feel free to contact me if you have any questions or suggestions.
