@@ -78,25 +78,23 @@ def store_password(username):
   website = input("Enter the website: ")
   password = input("Enter your password: ")
 
-  # Insert the password into the SQLite database along with the username
-  cursor.execute("INSERT INTO passwords (username, website, password) VALUES (?, ?, ?)", (username, website, password))
-  connection.commit()
+  # Insert the password into the SQLite database along with the user_id
+  user_id = get_user_id(username)
+  if user_id is not None:
+      cursor.execute("INSERT INTO passwords (user_id, website, password) VALUES (?, ?, ?)", (user_id, website, password))
+      connection.commit()
+      print("Password stored successfully.")
+  else:
+      print(f"User '{username}' not found. Password not stored.")
 
-  print("Password stored successfully.")
-
-  print("------- Options --------")
-  print("\n1. Store another password/Main Menu")
-  print("2. Retrieve password")
-  
-  while True:
-    choice = input("\nEnter your choice: ")
-
-    if choice == "1":
-        break  
-
-    if choice == "2":
-        retrieve_password()
-        break
+# Function to get the user ID based on the username
+def get_user_id(username):
+  cursor.execute("SELECT id FROM users WHERE username=?", (username,))
+  user_id = cursor.fetchone()
+  if user_id:
+      return user_id[0]
+  else:
+      return None
     
 # Retrieve the password from database using username, website
 def retrieve_password(username):
@@ -104,18 +102,22 @@ def retrieve_password(username):
 
   passwordFound = False
 
-  # Query the database for passwords associated with the logged-in user's username
-  cursor.execute("SELECT website, password FROM passwords WHERE username=? AND website=?", (username, website))
-  password_data = cursor.fetchone()
+  # Get the user_id based on the username
+  user_id = get_user_id(username)
 
-  if password_data:
-      website, password = password_data
-      print(f"Retrieved password for {website}: {password}")
-      passwordFound = True
+  if user_id is not None:
+      # Query the database for passwords associated with the user_id and website
+      cursor.execute("SELECT website, password FROM passwords WHERE user_id=? AND website=?", (user_id, website))
+      password_data = cursor.fetchone()
+
+      if password_data:
+          website, password = password_data
+          print(f"Retrieved password for {website}: {password}")
+          passwordFound = True
 
   if not passwordFound:
       print("Password not found for the website.")
-
+    
 def main():
   print("Welcome To Password Manager")
 
@@ -130,7 +132,7 @@ def main():
       if userChoice0 == 1:
           user_register()
       elif userChoice0 == 2:
-          login_user()
+          username = login_user()
 
           while True:
               print("\n2------------ Password Menu ---------")
@@ -141,19 +143,15 @@ def main():
               userChoice1 = int(input("Enter your choice: "))
 
               if userChoice1 == 1:
-                  store_password()
+                  store_password(username)
               elif userChoice1 == 2:
-                  retrieve_password()
+                  retrieve_password(username)
               elif userChoice1 == 3:
                   break
 
       elif userChoice0 == 3:
           break
-
-      elif userChoice0 == 4:
-          print("ek is gay, hehehehehehe")
-          break
-
+        
   #close the connection
   cursor.close()
   connection.close()
