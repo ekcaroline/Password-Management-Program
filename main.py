@@ -134,17 +134,44 @@ def get_password():
 # Validates if the password meets requirements
 # Takes in the password as a string and returns T/F if its valid
 def validate_password(password):
-    valid = False
-    lowerAlphas = "q w e r t y u i o p a s d f g h j k l z x c v b n m"
-    upperAlphas = "Q W E R T Y U I O P A S D F G H J K L Z X C V B N M"
-    nums = "1 2 3 4 5 6 7 8 9 0"
-    specials = "! @ # $ % ^ & * ( ) _ + - = < > , . / ? ; :"
+    lowerAlphas = "q w e r t y u i o p a s d f g h j k l z x c v b n m".split()
+    upperAlphas = "Q W E R T Y U I O P A S D F G H J K L Z X C V B N M".split()
+    nums = "1 2 3 4 5 6 7 8 9 0".split()
+    specials = "! @ # $ % ^ & * ( ) _ + - = < > , . / ? ; :".split()
+    
+    validLower = False
+    validUpper = False
+    validNums = False
+    validSpecials = False
+    
+    missingRequirements = []
 
     for char in password:
-        print("test")
-    
-    return valid
-
+        if char in lowerAlphas:
+            validLower = True
+        elif char in upperAlphas:
+            validUpper = True
+        elif char in nums:
+            validNums = True
+        elif char in specials:
+            validSpecials = True
+        else:
+            print("validating error")
+            
+    if validLower and validUpper and validNums and validSpecials:
+        return True
+    else:
+        if char in lowerAlphas:
+            missingRequirements.append("l")
+        elif char in upperAlphas:
+            missingRequirements.append("u")
+        elif char in nums:
+            missingRequirements.append("n")
+        elif char in specials:
+            missingRequirements.append("s")
+        requirements_message(missingRequirements)
+        return False
+        
 # Takes in the missing requirements as an array of characters that denote the missing requirements
 # Prints the correct error message and does not return anything
 def requirements_message(missingRequirements): 
