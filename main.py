@@ -139,8 +139,48 @@ def validate_password(password):
     upperAlphas = "Q W E R T Y U I O P A S D F G H J K L Z X C V B N M"
     nums = "1 2 3 4 5 6 7 8 9 0"
     specials = "! @ # $ % ^ & * ( ) _ + - = < > , . / ? ; :"
+
+    for char in password:
+        print("test")
     
     return valid
+
+# Takes in the missing requirements as an array of characters that denote the missing requirements
+# Prints the correct error message and does not return anything
+def requirements_message(missingRequirements): 
+    errorOutput    = "Password must contain "
+    invalidLower   = ", a lower case letter"
+    invalidUpper   = ", an upper case letter"
+    invalidNum     = ", a number"
+    invalidSpecial = ", a special character"
+
+    #appending requirements to the output
+    for i in range(len(missingRequirements) - 1):
+        if missingRequirements[i] == "l":
+            errorOutput = errorOutput + invalidLower
+        elif missingRequirements[i] == "u":
+            errorOutput = errorOutput + invalidUpper
+        elif missingRequirements[i] == "n":
+            errorOutput = errorOutput + invalidNum
+        elif missingRequirements[i] == "s":
+            errorOutput = errorOutput + invalidLower
+        else:
+            errorOutput += "error"
+    
+    #appends the last requirement and an "and"
+    if missingRequirements[-1] == "l":
+        errorOutput = errorOutput + "and" + invalidLower
+    elif missingRequirements[-1] == "u":
+        errorOutput = errorOutput + "and" + invalidUpper
+    elif missingRequirements[-1] == "n":
+        errorOutput = errorOutput + "and" + invalidNum
+    elif missingRequirements[-1] == "s":
+        errorOutput = errorOutput + "and" + invalidSpecial
+    else:
+        errorOutput += "error"
+    
+    print(errorOutput)
+
     
 def main():
   print("Welcome To Password Manager")
