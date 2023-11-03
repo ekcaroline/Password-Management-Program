@@ -119,6 +119,28 @@ def retrieve_password(username):
 
   if not passwordFound:
       print("Password not found for the website.")
+      
+# Gets the password
+# Takes no arguments and returns a password string
+def get_password():
+    password = input("Enter your password: ")
+    
+    while validate_password(password) == False:
+        print("invalid password")
+        password = input("Enter your password: ")
+    
+    return password
+
+# Validates if the password meets requirements
+# Takes in the password as a string and returns T/F if its valid
+def validate_password(password):
+    valid = False
+    lowerAlphas = "q w e r t y u i o p a s d f g h j k l z x c v b n m"
+    upperAlphas = "Q W E R T Y U I O P A S D F G H J K L Z X C V B N M"
+    nums = "1 2 3 4 5 6 7 8 9 0"
+    specials = "! @ # $ % ^ & * ( ) _ + - = < > , . / ? ; :"
+    
+    return valid
     
 def main():
   print("Welcome To Password Manager")
