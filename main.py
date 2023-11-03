@@ -161,13 +161,13 @@ def validate_password(password):
     if validLower and validUpper and validNums and validSpecials:
         return True
     else:
-        if char in lowerAlphas:
+        if lowerAlphas:
             missingRequirements.append("l")
-        elif char in upperAlphas:
+        elif upperAlphas:
             missingRequirements.append("u")
-        elif char in nums:
+        elif nums:
             missingRequirements.append("n")
-        elif char in specials:
+        elif specials:
             missingRequirements.append("s")
         requirements_message(missingRequirements)
         return False
