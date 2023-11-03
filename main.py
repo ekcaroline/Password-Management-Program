@@ -75,7 +75,7 @@ def login_user():
 # Enter and store password onto database
 def store_password(username):
   website = input("Enter the website: ")
-  password = input("Enter your password: ")
+  password = get_password()
 
   # Insert the password into the SQLite database along with the user_id
   user_id = get_user_id(username)
@@ -116,6 +116,89 @@ def retrieve_password(username):
 
   if not passwordFound:
       print("Password not found for the website.")
+      
+# Gets the password
+# Takes no arguments and returns a password string
+def get_password():
+    password = input("Enter your password: ")
+    
+    while validate_password(password) == False:
+        password = input("Enter your password: ")
+    
+    return password
+
+# Validates if the password meets requirements
+# Takes in the password as a string and returns T/F if its valid
+def validate_password(password):
+    lowerAlphas = "q w e r t y u i o p a s d f g h j k l z x c v b n m".split()
+    upperAlphas = "Q W E R T Y U I O P A S D F G H J K L Z X C V B N M".split()
+    nums = "1 2 3 4 5 6 7 8 9 0".split()
+    specials = "! @ # $ % ^ & * ( ) _ + - = < > , . / ? ; :".split()
+    
+    validLower = False
+    validUpper = False
+    validNums = False
+    validSpecials = False
+    
+    missingRequirements = []
+
+    for char in password:
+        if char in lowerAlphas:
+            validLower = True
+        if char in upperAlphas:
+            validUpper = True
+        if char in nums:
+            validNums = True
+        if char in specials:
+            validSpecials = True
+            
+    if validLower and validUpper and validNums and validSpecials:
+        return True
+    else:
+        if validLower is False:
+            missingRequirements.append(1)
+        if validUpper is False:
+            missingRequirements.append(2)
+        if validNums is False:
+            missingRequirements.append(3)
+        if validSpecials is False:
+            missingRequirements.append(4)
+        print("\nInvalid password")
+        requirements_message(missingRequirements)
+        return False
+        
+# Takes in the missing requirements as an array of characters that denote the missing requirements
+# Prints the correct error message and does not return anything
+def requirements_message(missingRequirements): 
+    errorOutput    = "Password must contain"
+
+    #appending requirements to the output
+    if len(missingRequirements) > 1:
+        for i in range(len(missingRequirements) - 1):
+            errorOutput = construct_requirements_message(missingRequirements[i], errorOutput)
+        errorOutput = errorOutput + " and"
+    errorOutput = construct_requirements_message(missingRequirements[len(missingRequirements) - 1], errorOutput)
+    print(errorOutput + '\n')
+    
+def construct_requirements_message(missingRequirement, errorOutput):
+    invalidLower   = ", a lower case letter"
+    invalidUpper   = ", an upper case letter"
+    invalidNum     = ", a number"
+    invalidSpecial = ", a special character"
+    
+    if missingRequirement == 1:
+        message = errorOutput + invalidLower
+    elif missingRequirement == 2:
+        message = errorOutput + invalidUpper
+    elif missingRequirement == 3:
+        message = errorOutput + invalidNum
+    elif missingRequirement == 4:
+        message = errorOutput + invalidSpecial
+    else:
+        message = errorOutput + "error"
+    
+    return message
+
     
 def main():
   print("Welcome To Password Manager")
