@@ -204,35 +204,38 @@ def main():
   print("Welcome To Password Manager")
 
   while True:
-      print("1. Register")
-      print("2. Login")
-      print("3. Exit")
+    print("1. Register")
+    print("2. Login")
+    print("3. Exit")
 
-      userChoice0 = int(input("\nEnter your choice: "))
+    userChoice0 = int(input("\nEnter your choice: "))
 
-      if userChoice0 == 1:
-          user_register()
-      elif userChoice0 == 2:
-          username = login_user()
+    if userChoice0 == 1:
+        user_register()
+    elif userChoice0 == 2:
+        username = login_user()
 
-          while True:
-              print("\n2------------ Password Menu ---------")
-              print("1. Store password")
-              print("2. Retrieve password")
-              print("3. Back to main menu")
+        while True:
+            print("\n------------ Password Menu ---------")
+            print("1. Store password")
+            print("2. Retrieve password")
+            print("3. Back to main menu")
 
-              userChoice1 = int(input("Enter your choice: "))
+            userChoice1 = int(input("Enter your choice: "))
 
-              if userChoice1 == 1:
-                  store_password(username)
-              elif userChoice1 == 2:
-                  retrieve_password(username)
-              elif userChoice1 == 3:
-                  break
+            if userChoice1 == 1:
+                store_password(username)
+            elif userChoice1 == 2:
+                retrieve_password(username)
+            elif userChoice1 == 3:
+                break
+    
+    elif userChoice0 == 3:
+            break
+    else: 
+        print("Invalid choice. Please try again.")
 
-      elif userChoice0 == 3:
-          break
-      
+
         
   #close the connection
   cursor.close()
