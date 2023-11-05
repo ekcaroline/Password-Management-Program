@@ -241,7 +241,7 @@ def main():
   while True:
     print("1. Register")
     print("2. Login")
-    print("3. Exit")
+    print("3. Exit\n")
 
     userChoice0 = int(input("\nEnter your choice: "))
 
@@ -254,7 +254,7 @@ def main():
             print("\n------------ Password Menu ---------")
             print("1. Store password")
             print("2. Retrieve password")
-            print("3. Back to main menu")
+            print("3. Back to main menu\n")
 
             userChoice1 = int(input("Enter your choice: "))
 
