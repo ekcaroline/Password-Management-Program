@@ -2,6 +2,8 @@ import hashlib
 import sqlite3
 import bcrypt
 import time
+import random
+from random import randint
 
 #test
 
@@ -198,6 +200,30 @@ def construct_requirements_message(missingRequirement, errorOutput):
         message = errorOutput + "error"
     
     return message
+
+# Takes in no arguments and returns a generated password
+def generate_password():
+    # List of valid characters
+    lowerAlphas = "qwertyuiopasdfghjklzxcvbnm"
+    upperAlphas = "QWERTYUIOPASDFGHJKLZXCVBNM"
+    nums = "1234567890"
+    specials = "!@#$%^&*()_+-=<>,./?;:"
+
+    password = ""
+
+    while len(password) < 16:
+        num = randint(1,4)
+        match num:
+            case 1:
+                password = password + random.choice(lowerAlphas)
+            case 2:
+                password = password + random.choice(nums)
+            case 3:
+                password = password + random.choice(upperAlphas)
+            case 4:
+                password = password + random.choice(specials)
+
+    return password
 
     
 def main():
