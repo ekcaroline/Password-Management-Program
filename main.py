@@ -74,11 +74,20 @@ def login_user():
       time.sleep(300)
   return username
 
-# Enter and store password onto database
-def store_password(username):
-  website = input("Enter the website: ")
-  password = get_password()
+def take_password(username):
+    website = input("Enter the website: ")
+    userInput = input("\nWould you like to generate a password? (Y/N) ")
 
+    if userInput == 'Y' or userInput == 'y':
+        password = generate_password()
+        print(password + " is your generated password.")
+    elif userInput == 'N' or userInput == 'n':
+        password = get_password()
+
+    store_password(username, website, password)
+
+# Enter and store password onto database
+def store_password(username, website, password):
   # Insert the password into the SQLite database along with the user_id
   user_id = get_user_id(username)
   if user_id is not None:
@@ -250,7 +259,7 @@ def main():
             userChoice1 = int(input("Enter your choice: "))
 
             if userChoice1 == 1:
-                store_password(username)
+                take_password(username)
             elif userChoice1 == 2:
                 retrieve_password(username)
             elif userChoice1 == 3:
