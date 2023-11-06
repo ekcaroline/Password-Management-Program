@@ -74,6 +74,7 @@ def login_user():
       time.sleep(300)
   return username
 
+# Allows the user to generate and store valid passwords 
 def take_password(username):
     website = input("Enter the website: ")
     userInput = input("\nWould you like to generate a password? (Y/N) ")
@@ -97,22 +98,39 @@ def store_password(username, website, password):
   else:
       print(f"User '{username}' not found. Password not stored.")
 
-def update_password(username, website):
+# Update existing passwords 
+def update_password(username):
     user_id = get_user_id(username)
     if user_id is not None: 
-        cursor.execute("SELECT id FROM passwords WHERE user_id=? AND website=?", (user_id, website))
-        website_password = cursor.fetchnone()
+        while True:
+            website = input("Enter website: ")
+            cursor.execute("SELECT id FROM passwords WHERE user_id=? AND website=?", (user_id, website))
+            website_password = cursor.fetchone()
 
-        if website_password:
-            password_id = website_password[0]
-            new_password = get_password() 
-            cursor.execute("UPDATE passwords SET password = ? WHERE id = ?", (new_password, password_id))
-            connection.commit()
-            print(f"Password for {website} has been successfully updated.")
-        else:
-            print(f"Password for {website} not found. Password cannot be updated.")
+            if website_password:
+                password_id = website_password[0]
+                userInput1 = input("\nWould you like to generate a password? (Y/N)")
+                
+                if userInput1 == 'Y' or userInput1 == 'y':
+                    new_password = generate_password()
+                    print(f"Password for {website} has been updated to: {new_password} and has been stored successfully.")
+                    break
+                elif userInput1 == 'N' or userInput1 == 'n':
+                    new_password = get_password()
+                    cursor.execute("UPDATE passwords SET password = ? WHERE id = ?", (new_password, password_id))
+                    connection.commit()
+                    print(f"Password for {website} has been successfully updated.")
+                    break
+                else:
+                    print("Invalid input. Try again.")
+            else:
+                print(f"Password for {website} not found. Password cannot be updated.")
+                break
     else: 
         print(f"User {username} not found. Password cannot be updated.")
+        print("Redirecting you to main menu...")
+        time.sleep(3)
+        main_menu()
 
 # Function to get the user ID based on the username
 def get_user_id(username):
@@ -251,47 +269,53 @@ def generate_password():
 
     return password
 
-    
+def password_manager_account():
+    print("Welcome To Password Manager\n")
+
+    while True:
+        print("1. Register")
+        print("2. Login")
+        print("3. Exit\n")
+
+        userChoice0 = int(input("\nEnter your choice: "))
+
+        if userChoice0 < 1 or userChoice0 > 4:
+            print("You did not enter a valid number. Try again")
+        else:
+            match userChoice0:
+                case 1:
+                    user_register()
+                case 2:
+                    main_menu()
+                case 3:
+                    break
+
+def main_menu():
+    username = login_user()
+    while True:
+        print("\n------------ Password Menu ---------")
+        print("1. Store password")
+        print("2. Retrieve password")
+        print("3. Update password")
+        print("4. Logout\n")
+
+        userChoice1 = int(input("Enter your choice: "))
+
+        if userChoice1 < 1 or userChoice1 > 4:
+            print("You did not enter a valid number. Try again")
+        match userChoice1:
+                case 1:
+                    take_password(username)
+                case 2:
+                    retrieve_password(username)
+                case 3:
+                    update_password(username)
+                case 4:
+                    return
+
 def main():
-  print("Welcome To Password Manager")
+  password_manager_account()
 
-  while True:
-    print("1. Register")
-    print("2. Login")
-    print("3. Exit\n")
-
-    userChoice0 = int(input("\nEnter your choice: "))
-
-    if userChoice0 == 1:
-        user_register()
-    elif userChoice0 == 2:
-        username = login_user()
-
-        while True:
-            print("\n------------ Password Menu ---------")
-            print("1. Store password")
-            print("2. Retrieve password")
-            print("3. Update password")
-            print("4. Back to main menu\n")
-
-            userChoice1 = int(input("Enter your choice: "))
-
-            if userChoice1 == 1:
-                take_password(username)
-            elif userChoice1 == 2:
-                retrieve_password(username)
-            elif userChoice1 == 3:
-                
-            elif userChoice1 == 4:
-                break
-    
-    elif userChoice0 == 3:
-            break
-    else: 
-        print("Invalid choice. Please try again.")
-
-
-        
   #close the connection
   cursor.close()
   connection.close()
