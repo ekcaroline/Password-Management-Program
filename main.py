@@ -30,7 +30,7 @@ def user_register():
         # Store the username, hashed password, and salt in the database
         cursor.execute("INSERT INTO users (username, password, salt) VALUES (?, ?, ?)", (username, hashed_password, salt))
         connection.commit()
-        print("Registration successful!")
+        print("Registration successful!\n")
         break
 
 # User login
@@ -77,13 +77,19 @@ def login_user():
 # Allows the user to generate and store valid passwords 
 def take_password(username):
     website = input("Enter the website: ")
-    userInput = input("\nWould you like to generate a password? (Y/N) ")
+    while True:
+        userInput = input("\nWould you like to generate a password? (Y/N) ")
 
-    if userInput == 'Y' or userInput == 'y':
-        password = generate_password()
-        print(password + " is your generated password.")
-    elif userInput == 'N' or userInput == 'n':
-        password = get_password()
+        if userInput.lower() == 'y':
+            password = generate_password()
+            print(password + " is your generated password.")
+            break
+        elif userInput.lower() == 'n':
+            password = get_password()
+            break
+        else:
+            print("Invalid input. Try again.")
+            continue
 
     store_password(username, website, password)
 
@@ -111,11 +117,11 @@ def update_password(username):
                 password_id = website_password[0]
                 userInput1 = input("\nWould you like to generate a password? (Y/N)")
                 
-                if userInput1 == 'Y' or userInput1 == 'y':
+                if userInput1.lower() == 'y':
                     new_password = generate_password()
                     print(f"Password for {website} has been updated to: {new_password} and has been stored successfully.")
                     break
-                elif userInput1 == 'N' or userInput1 == 'n':
+                elif userInput1.lower() == 'n':
                     new_password = get_password()
                     cursor.execute("UPDATE passwords SET password = ? WHERE id = ?", (new_password, password_id))
                     connection.commit()
@@ -278,7 +284,7 @@ def password_manager_account():
         print("2. Login")
         print("3. Exit\n")
 
-        userChoice0 = int(input("\nEnter your choice: "))
+        userChoice0 = int(input("Enter your choice: "))
 
         if userChoice0 < 1 or userChoice0 > 4:
             print("You did not enter a valid number. Try again")
