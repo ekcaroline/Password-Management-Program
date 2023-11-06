@@ -97,6 +97,23 @@ def store_password(username, website, password):
   else:
       print(f"User '{username}' not found. Password not stored.")
 
+def update_password(username, website):
+    user_id = get_user_id(username)
+    if user_id is not None: 
+        cursor.execute("SELECT id FROM passwords WHERE user_id=? AND website=?", (user_id, website))
+        website_password = cursor.fetchnone()
+
+        if website_password:
+            password_id = website_password[0]
+            new_password = get_password() 
+            cursor.execute("UPDATE passwords SET password = ? WHERE id = ?", (new_password, password_id))
+            connection.commit()
+            print(f"Password for {website} has been successfully updated.")
+        else:
+            print(f"Password for {website} not found. Password cannot be updated.")
+    else: 
+        print(f"User {username} not found. Password cannot be updated.")
+
 # Function to get the user ID based on the username
 def get_user_id(username):
   cursor.execute("SELECT id FROM users WHERE username=?", (username,))
@@ -254,7 +271,8 @@ def main():
             print("\n------------ Password Menu ---------")
             print("1. Store password")
             print("2. Retrieve password")
-            print("3. Back to main menu\n")
+            print("3. Update password")
+            print("4. Back to main menu\n")
 
             userChoice1 = int(input("Enter your choice: "))
 
@@ -263,6 +281,8 @@ def main():
             elif userChoice1 == 2:
                 retrieve_password(username)
             elif userChoice1 == 3:
+                
+            elif userChoice1 == 4:
                 break
     
     elif userChoice0 == 3:
