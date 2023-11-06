@@ -269,6 +269,7 @@ def generate_password():
 
     return password
 
+# User registration or login menu
 def password_manager_account():
     print("Welcome To Password Manager\n")
 
@@ -290,6 +291,7 @@ def password_manager_account():
                 case 3:
                     break
 
+# Logged user menu 
 def main_menu():
     username = login_user()
     while True:
