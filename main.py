@@ -2,6 +2,7 @@ import hashlib
 import sqlite3
 import bcrypt
 import time
+import datetime
 import random
 from random import randint
 
@@ -22,7 +23,7 @@ def user_register():
         print("Username already taken. Please choose another username.")
         continue  # Continue the loop to allow the user to enter a new username
     else:
-        password = input("Enter a password: ")
+        password = get_password()
         # Hash the password using bcrypt and generate a salt
         salt = bcrypt.gensalt()
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
@@ -42,6 +43,8 @@ def login_user():
   while attempts < max_attempts:
       username = input("\nEnter your username: ")
       password = input("Enter your password: ")
+
+      username = username.strip()
 
       cursor.execute("SELECT salt, password FROM users WHERE username=?", (username,))
       user_data = cursor.fetchone()
@@ -95,17 +98,20 @@ def take_password(username):
 
 # Enter and store password onto database
 def store_password(username, website, password):
+  current_time = datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+
   # Insert the password into the SQLite database along with the user_id
   user_id = get_user_id(username)
   if user_id is not None:
-      cursor.execute("INSERT INTO passwords (user_id, website, password) VALUES (?, ?, ?)", (user_id, website, password))
+      cursor.execute("INSERT INTO passwords (user_id, website, password, last_updated) VALUES (?, ?, ?, ?)", (user_id, website, password, current_time))
       connection.commit()
-      print("Password stored successfully.")
+      print(f"[{current_time}]: Password for {website} stored successfully.")
   else:
       print(f"User '{username}' not found. Password not stored.")
 
 # Update existing passwords 
 def update_password(username):
+    current_time = datetime.datetime.now().strftime("%m-%d-%Y  %H:%M:%S")
     user_id = get_user_id(username)
     if user_id is not None: 
         while True:
@@ -119,24 +125,22 @@ def update_password(username):
                 
                 if userInput1.lower() == 'y':
                     new_password = generate_password()
-                    print(f"Password for {website} has been updated to: {new_password} and has been stored successfully.")
-                    break
                 elif userInput1.lower() == 'n':
                     new_password = get_password()
-                    cursor.execute("UPDATE passwords SET password = ? WHERE id = ?", (new_password, password_id))
-                    connection.commit()
-                    print(f"Password for {website} has been successfully updated.")
-                    break
                 else:
                     print("Invalid input. Try again.")
-            else:
-                print(f"Password for {website} not found. Password cannot be updated.")
+                
+                print(f"[{current_time}]: Password for {website} has been updated to '{new_password}' and has been stored successfully.")
+                cursor.execute("UPDATE passwords SET password = ?, last_updated = ? WHERE id = ?", (new_password, current_time, password_id))
+                connection.commit()
                 break
+            else:
+                print(f"Password for {website} not found. Password cannot be updated. Try again.")
     else: 
         print(f"User {username} not found. Password cannot be updated.")
-        print("Redirecting you to main menu...")
-        time.sleep(3)
-        main_menu()
+    print("Redirecting you to main menu...")
+    time.sleep(2)
+    main_menu(username)
 
 # Function to get the user ID based on the username
 def get_user_id(username):
@@ -293,13 +297,13 @@ def password_manager_account():
                 case 1:
                     user_register()
                 case 2:
-                    main_menu()
+                    username = login_user()
+                    main_menu(username)
                 case 3:
                     break
 
 # Logged user menu 
-def main_menu():
-    username = login_user()
+def main_menu(username):
     while True:
         print("\n------------ Password Menu ---------")
         print("1. Store password")
@@ -319,7 +323,7 @@ def main_menu():
                 case 3:
                     update_password(username)
                 case 4:
-                    return
+                    password_manager_account()
 
 def main():
   password_manager_account()
@@ -337,7 +341,7 @@ if __name__ == "__main__":
   cursor.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT, salt TEXT)")
 
   # Create a table for storing passwords
-  cursor.execute("CREATE TABLE IF NOT EXISTS passwords (id INTEGER PRIMARY KEY, user_id INTEGER, website TEXT, password TEXT)")
+  cursor.execute("CREATE TABLE IF NOT EXISTS passwords (id INTEGER PRIMARY KEY, user_id INTEGER, website TEXT, password TEXT, last_updated DATETIME)")
 
   connection.commit()
   main()
