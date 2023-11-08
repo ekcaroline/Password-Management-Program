@@ -6,8 +6,6 @@ import datetime
 import random
 from random import randint
 
-#test
-
 # Register a user
 def user_register():
   print("\n ---------- User Registration ----------")
@@ -316,14 +314,14 @@ def main_menu(username):
         if userChoice1 < 1 or userChoice1 > 4:
             print("You did not enter a valid number. Try again")
         match userChoice1:
-                case 1:
-                    take_password(username)
-                case 2:
-                    retrieve_password(username)
-                case 3:
-                    update_password(username)
-                case 4:
-                    password_manager_account()
+            case 1:
+                take_password(username)
+            case 2:
+                retrieve_password(username)
+            case 3:
+                update_password(username)
+            case 4:
+                break
 
 def main():
   password_manager_account()
