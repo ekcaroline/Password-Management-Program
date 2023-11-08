@@ -138,7 +138,6 @@ def update_password(username):
         print(f"User {username} not found. Password cannot be updated.")
     print("Redirecting you to main menu...")
     time.sleep(2)
-    main_menu(username)
 
 # Function to get the user ID based on the username
 def get_user_id(username):
@@ -193,6 +192,8 @@ def validate_password(password):
     validUpper = False
     validNums = False
     validSpecials = False
+    validLength = False
+    noSpace = True
     
     missingRequirements = []
 
@@ -205,8 +206,14 @@ def validate_password(password):
             validNums = True
         if char in specials:
             validSpecials = True
+        if char == " ":
+            noSpace = False
             
-    if validLower and validUpper and validNums and validSpecials:
+      # Checking if the password is proper length
+    if len(password) >= 8 and len(password) <= 64:
+        validLength = True
+            
+    if validLower and validUpper and validNums and validSpecials and validLength and noSpace:
         return True
     else:
         if validLower is False:
@@ -217,8 +224,15 @@ def validate_password(password):
             missingRequirements.append(3)
         if validSpecials is False:
             missingRequirements.append(4)
+        
         print("\nInvalid password")
-        requirements_message(missingRequirements)
+        if validLength is False:
+            print("Password must be between 8 and 64 characters")
+        if noSpace is False:
+            print("Password must not contain a space")
+        if len(missingRequirements) > 0:
+            requirements_message(missingRequirements)
+        print("\n")
         return False
         
 # Takes in the missing requirements as an array of characters that denote the missing requirements
@@ -232,7 +246,7 @@ def requirements_message(missingRequirements):
             errorOutput = construct_requirements_message(missingRequirements[i], errorOutput)
         errorOutput = errorOutput + " and"
     errorOutput = construct_requirements_message(missingRequirements[len(missingRequirements) - 1], errorOutput)
-    print(errorOutput + '\n')
+    print(errorOutput)
     
 def construct_requirements_message(missingRequirement, errorOutput):
     invalidLower   = ", a lower case letter"
@@ -302,7 +316,8 @@ def password_manager_account():
 
 # Logged user menu 
 def main_menu(username):
-    while True:
+    menu = True
+    while menu:
         print("\n------------ Password Menu ---------")
         print("1. Store password")
         print("2. Retrieve password")
@@ -321,7 +336,7 @@ def main_menu(username):
             case 3:
                 update_password(username)
             case 4:
-                break
+                menu = False
 
 def main():
   password_manager_account()
