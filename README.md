@@ -19,19 +19,19 @@ This Python-based command-line Password Manager provides a secure and efficient 
 ## Usage
 Choose an option from the main menu:
 
-- Register (1): Register a new user.
-- Login (2): Log in as an existing user.
-- Exit (3): Exit the program.
+- **Register (1):** Register a new user.
+- **Login (2):** Log in as an existing user.
+- **Exit (3):** Exit the program.
   
 If registering, enter a unique username and password. The program securely stores this information in the database. For login, provide your username and password. After a successful login, access the Password Menu, allowing you to:
 
-**Store Password (1):** Save a new password for a website.
+- **Store Password (1):** Save a new password for a website.
 
-**Retrieve Password (2):** Fetch a stored password for a website.
+- **Retrieve Password (2):** Fetch a stored password for a website.
 
-**Update Password (3):** Update an existing password for a website.
+- **Update Password (3):** Update an existing password for a website.
 
-**Logout (4):** Log out and return to the main menu.
+- **Logout (4):** Log out and return to the main menu.
 
 ## Database
 The program utilizes an SQLite database to store user information and passwords. The database schema includes two tables:
