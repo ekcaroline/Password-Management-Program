@@ -37,7 +37,7 @@ If registering, enter a unique username and password. The program securely store
 The program utilizes an SQLite database to store user information and passwords. The database schema includes two tables:
 
 **users:** Stores user information (id, username, password, salt).
-**passwords:** Stores stored passwords (id, user_id, website, password).
+**passwords:** Stores stored passwords (id, user_id, website, password, last_updated).
 
 ## Important Notes
 The program employs bcrypt for secure password hashing.
