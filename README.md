@@ -26,8 +26,11 @@ Choose an option from the main menu:
 If registering, enter a unique username and password. The program securely stores this information in the database. For login, provide your username and password. After a successful login, access the Password Menu, allowing you to:
 
 **Store Password (1):** Save a new password for a website.
+
 **Retrieve Password (2):** Fetch a stored password for a website.
+
 **Update Password (3):** Update an existing password for a website.
+
 **Logout (4):** Log out and return to the main menu.
 
 ## Database
