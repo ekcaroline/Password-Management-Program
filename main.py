@@ -5,6 +5,39 @@ import time
 import datetime
 import random
 from random import randint
+import sys
+
+from PyQt5.QtWidgets import (
+    QApplication,
+    QLineEdit,
+    QMainWindow,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
+
+# Subclass QMainWindow to customize your application's main window
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Widgets App")
+
+        layout = QVBoxLayout()
+        widgets = [
+            QLineEdit,
+            QPushButton,
+        ]
+
+        for w in widgets:
+            layout.addWidget(w())
+
+        widget = QWidget()
+        widget.setLayout(layout)
+
+        # Set the central widget of the Window. Widget will expand
+        # to take up all the space in the window by default.
+        self.setCentralWidget(widget)
 
 # Register a user
 def user_register():
@@ -339,6 +372,11 @@ def main_menu(username):
                 menu = False
 
 def main():
+  app = QApplication(sys.argv)
+  window = MainWindow()
+  window.show()
+  app.exec()
+  print("test")
   password_manager_account()
 
   #close the connection
